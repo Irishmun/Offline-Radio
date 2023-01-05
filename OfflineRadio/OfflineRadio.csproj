@@ -4,122 +4,140 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <StartupObject>OfflineRadio.Program</StartupObject>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\UI\albumlist.bmp" />
-    <None Remove="Resources\UI\amarok.bmp" />
-    <None Remove="Resources\UI\avs.bmp" />
-    <None Remove="Resources\UI\balance.bmp" />
-    <None Remove="Resources\UI\cbuttons.bmp" />
-    <None Remove="Resources\UI\covertag.bmp" />
-    <None Remove="Resources\UI\eqmain.bmp" />
-    <None Remove="Resources\UI\eq_ex.bmp" />
-    <None Remove="Resources\UI\gen.bmp" />
-    <None Remove="Resources\UI\genex.bmp" />
-    <None Remove="Resources\UI\main.bmp" />
-    <None Remove="Resources\UI\mb.bmp" />
-    <None Remove="Resources\UI\mikro.bmp" />
-    <None Remove="Resources\UI\monoster.bmp" />
-    <None Remove="Resources\UI\numbers.bmp" />
-    <None Remove="Resources\UI\nums_ex.bmp" />
-    <None Remove="Resources\UI\playpaus.bmp" />
-    <None Remove="Resources\UI\pledit.bmp" />
-    <None Remove="Resources\UI\posbar.bmp" />
-    <None Remove="Resources\UI\screenshot.png" />
-    <None Remove="Resources\UI\shufrep.bmp" />
-    <None Remove="Resources\UI\sidamp.bmp" />
-    <None Remove="Resources\UI\text.bmp" />
-    <None Remove="Resources\UI\titlebar.bmp" />
-    <None Remove="Resources\UI\vidamp.bmp" />
-    <None Remove="Resources\UI\video.bmp" />
-    <None Remove="Resources\UI\volume.bmp" />
+    <None Remove="Resources\GUI\albumlist.bmp" />
+    <None Remove="Resources\GUI\amarok.bmp" />
+    <None Remove="Resources\GUI\avs.bmp" />
+    <None Remove="Resources\GUI\balance.bmp" />
+    <None Remove="Resources\GUI\cbuttons.bmp" />
+    <None Remove="Resources\GUI\covertag.bmp" />
+    <None Remove="Resources\GUI\eqmain.bmp" />
+    <None Remove="Resources\GUI\eq_ex.bmp" />
+    <None Remove="Resources\GUI\gen.bmp" />
+    <None Remove="Resources\GUI\genex.bmp" />
+    <None Remove="Resources\GUI\main.bmp" />
+    <None Remove="Resources\GUI\mb.bmp" />
+    <None Remove="Resources\GUI\mikro.bmp" />
+    <None Remove="Resources\GUI\monoster.bmp" />
+    <None Remove="Resources\GUI\numbers.bmp" />
+    <None Remove="Resources\GUI\nums_ex.bmp" />
+    <None Remove="Resources\GUI\playpaus.bmp" />
+    <None Remove="Resources\GUI\pledit.bmp" />
+    <None Remove="Resources\GUI\posbar.bmp" />
+    <None Remove="Resources\GUI\shufrep.bmp" />
+    <None Remove="Resources\GUI\sidamp.bmp" />
+    <None Remove="Resources\GUI\text.bmp" />
+    <None Remove="Resources\GUI\titlebar.bmp" />
+    <None Remove="Resources\GUI\vidamp.bmp" />
+    <None Remove="Resources\GUI\video.bmp" />
+    <None Remove="Resources\GUI\volume.bmp" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <Resource Include="Resources\GUI\albumlist.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\amarok.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\avs.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\balance.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\cbuttons.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\covertag.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\eqmain.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\eq_ex.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\gen.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\genex.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\main.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\mb.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\mikro.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\monoster.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\numbers.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\nums_ex.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\playpaus.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\pledit.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\posbar.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\shufrep.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\sidamp.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\text.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\titlebar.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\vidamp.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\video.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\GUI\volume.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\UI\albumlist.bmp">
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\GUI\Readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\amarok.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\avs.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\balance.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\cbuttons.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\covertag.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\eqmain.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\eq_ex.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\gen.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\genex.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\main.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\mb.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\mikro.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\monoster.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\numbers.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\nums_ex.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\playpaus.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\pledit.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\posbar.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\shufrep.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\sidamp.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\text.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\titlebar.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\vidamp.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\video.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\UI\volume.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
   </ItemGroup>
 
 </Project>

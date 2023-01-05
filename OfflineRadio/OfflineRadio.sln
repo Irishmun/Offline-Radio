@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio", "OfflineRadio.csproj", "{B5252F97-3BD7-472F-B2B2-D40DA268DE54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio", "OfflineRadio.csproj", "{647E5F36-E7C3-46F3-98CE-6050B4E199F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5252F97-3BD7-472F-B2B2-D40DA268DE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5252F97-3BD7-472F-B2B2-D40DA268DE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5252F97-3BD7-472F-B2B2-D40DA268DE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5252F97-3BD7-472F-B2B2-D40DA268DE54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{647E5F36-E7C3-46F3-98CE-6050B4E199F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647E5F36-E7C3-46F3-98CE-6050B4E199F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647E5F36-E7C3-46F3-98CE-6050B4E199F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647E5F36-E7C3-46F3-98CE-6050B4E199F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F377D5CF-FC7D-443B-A476-818366B2CA46}
+		SolutionGuid = {4AC987C3-8A36-4BDE-BE36-720F47055121}
 	EndGlobalSection
 EndGlobal
