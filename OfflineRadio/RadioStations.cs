@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
+using NAudio.Gui;
+using System.Linq;
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -12,36 +15,50 @@ namespace OfflineRadio
     {
         private string[] AcceptedFileTypes = new string[] { ".mp3", ".flac", ".wav", ".aac" };
         private List<Station> _stations;
+        /// <summary>Gets all the stations in the given folder. Will overwrite existing stations</summary>
+        /// <param name="folder">folder to search in</param>
+        /// <returns>the amount of stations added</returns>
         public int GetAllStations(string folder)
         {
-            string[] possibleStations = Directory.GetFiles(folder);
-            if (possibleStations == null || possibleStations.Length <= 0)
-            { return -1; }
-            _stations = new List<Station>();
-            DateTime start = DateTime.Now;
-            foreach (string item in possibleStations)
+            List<Station> foundStations = GetStationsList(folder);
+            if (foundStations != null && foundStations.Count > 0)
             {
-                string extension = Path.GetExtension(item);
-                for (int i = 0; i < AcceptedFileTypes.Length; i++)
-                {
-                    if (extension.ToLower().Equals(AcceptedFileTypes[i].ToLower()))
-                    {
-                        Station station = new Station(item, start);
-                        _stations.Add(station);
+                _stations = foundStations;
 #if DEBUG
-                        Debug.WriteLine("Added Station: " + station.Name);
+                Debug.WriteLine("Added " + _stations.Count + " Stations");
 #endif
-                        break;
-                    }
+            }
+            return _stations.Count;
+        }
+
+        /// <summary>Gets all stations in folder, and appends any new ones if they aren't in the folder yet. Existing ones will be updated</summary>
+        /// <param name="folder">folder to search through</param>
+        /// <returns>whether any new stations were appended or updated</returns>
+        public bool AppendOrUpdateStations(string folder)
+        {
+            List<Station> foundStations = GetStationsList(folder);
+            int index = -1;
+            bool altered = false;
+            for (int i = 0; i < foundStations.Count; i++)
+            {
+                //check for any with a matching name, folder might have changed
+                Station existing = _stations.FirstOrDefault(s => s.Name.Equals(foundStations[i].Name));
+                if (string.IsNullOrWhiteSpace(existing.Name))
+                {
+                    //add new station if not present yet
+                    _stations.Add(foundStations[i]);
+                    altered = true;
+                }
+                else
+                {
+                    //update existing stations
+                    index = _stations.IndexOf(existing);
+                    existing.AudioFile = foundStations[i].AudioFile;//update file in folder, the rest stays the same.
+                    UpdateStationValue(index, existing);
+                    altered = true;
                 }
             }
-#if DEBUG
-            if (_stations.Count > 0)
-            {
-                Debug.WriteLine("Added " + _stations.Count + " Stations");
-            }
-#endif
-            return _stations.Count;
+            return altered;
         }
 
         public void UpdateStationValue(int index, Station newValues)
@@ -62,6 +79,33 @@ namespace OfflineRadio
                 }
             }
             return new Station();
+        }
+        private List<Station> GetStationsList(string path)
+        {
+            string[] possibleStations = Directory.GetFiles(path);
+            if (possibleStations == null || possibleStations.Length <= 0)
+            { return null; }
+
+            List<Station> foundStations = new List<Station>();
+            DateTime start = DateTime.Now;
+            foreach (string item in possibleStations)
+            {
+                string extension = Path.GetExtension(item);
+                for (int i = 0; i < AcceptedFileTypes.Length; i++)
+                {
+                    if (extension.ToLower().Equals(AcceptedFileTypes[i].ToLower()))
+                    {
+                        Station station = new Station(item, start);
+                        foundStations.Add(station);
+#if DEBUG
+                        Debug.WriteLine("Added Station: " + station.Name);
+#endif
+                        break;
+                    }
+                }
+            }
+
+            return foundStations;
         }
         public List<Station> Stations { get => _stations; set => _stations = value; }
     }
