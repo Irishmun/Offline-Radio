@@ -86,6 +86,7 @@ namespace OfflineRadio
             }
             return new Station();
         }
+
         private List<Station> GetStationsList(string path)
         {
             string[] possibleStations = Directory.GetFiles(path);
