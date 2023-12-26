@@ -34,5 +34,18 @@ namespace OfflineRadio.Stations
         {
             return $"{Name}, startTime: {StartTime}, Offset: {StartOffset}";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Station == false)
+            { return false; }
+            Station compare = (Station)obj;
+
+            if (compare.Name.Equals(this.Name) && compare.AudioFile.Equals(this.AudioFile) && compare.StartOffset.Equals(this.StartOffset))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using NAudio.Gui;
 using System.Linq;
 #if DEBUG
 using System.Diagnostics;
@@ -36,6 +35,11 @@ namespace OfflineRadio
         /// <returns>whether any new stations were appended or updated</returns>
         public bool AppendOrUpdateStations(string folder)
         {
+            if (_stations == null || _stations.Count == 0)
+            {//create a new list for it
+                GetAllStations(folder);
+                return true;
+            }
             List<Station> foundStations = GetStationsList(folder);
             int index = -1;
             bool altered = false;
@@ -52,6 +56,8 @@ namespace OfflineRadio
                 else
                 {
                     //update existing stations
+                    if (foundStations[i].AudioFile.Equals(existing.AudioFile) == true)//no difference, no change
+                    { continue; }
                     index = _stations.IndexOf(existing);
                     existing.AudioFile = foundStations[i].AudioFile;//update file in folder, the rest stays the same.
                     UpdateStationValue(index, existing);

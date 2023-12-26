@@ -59,14 +59,16 @@ namespace OfflineRadio
                 if (folder.ShowDialog() == DialogResult.OK)
                 {
                     _settings.StationsFolder = folder.SelectedPath;
-                    if (_stations.GetAllStations(folder.SelectedPath) > 0)
+                    if (_stations.AppendOrUpdateStations(folder.SelectedPath) == true)
                     {
+                        StopPlaying();
                         PopulateStations();
                         _settings.SavedStations = _stations.Stations;
                         CbB_Stations.SelectedIndex = 0;
                     }
                 }
             }
+            _settings.SaveSettings();
         }
 
         private void BT_StartPlayback_Click(object sender, EventArgs e)
@@ -77,8 +79,7 @@ namespace OfflineRadio
 
         private void BT_StopPlayback_Click(object sender, EventArgs e)
         {
-            WMP_RadioPlayer.Ctlcontrols.stop();
-            _settings.LastPlayState = false;
+            StopPlaying();
         }
 
         #region debug
@@ -113,6 +114,12 @@ namespace OfflineRadio
         {
             _currentStation = _stations.GetStation((string)CbB_Stations.SelectedItem);
             WMP_RadioPlayer.URL = _currentStation.AudioFile;
+        }
+
+        private void StopPlaying()
+        {
+            WMP_RadioPlayer.Ctlcontrols.stop();
+            _settings.LastPlayState = false;
         }
 
         private void WMP_RadioPlayer_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
@@ -158,6 +165,7 @@ namespace OfflineRadio
         {
             _settings.SaveSettings();
         }
+
     }
 }
 
