@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearStationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showStationTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showStationValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +44,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.LB_Volume = new System.Windows.Forms.Label();
             this.WMP_RadioPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            this.clearStationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_Volume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WMP_RadioPlayer)).BeginInit();
@@ -73,9 +73,16 @@
             // selectFolderToolStripMenuItem
             // 
             this.selectFolderToolStripMenuItem.Name = "selectFolderToolStripMenuItem";
-            this.selectFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectFolderToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.selectFolderToolStripMenuItem.Text = "Select Folder";
             this.selectFolderToolStripMenuItem.Click += new System.EventHandler(this.selectFolderToolStripMenuItem_Click);
+            // 
+            // clearStationsToolStripMenuItem
+            // 
+            this.clearStationsToolStripMenuItem.Name = "clearStationsToolStripMenuItem";
+            this.clearStationsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.clearStationsToolStripMenuItem.Text = "Clear Stations";
+            this.clearStationsToolStripMenuItem.Click += new System.EventHandler(this.clearStationsToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -178,13 +185,6 @@
             this.WMP_RadioPlayer.Visible = false;
             this.WMP_RadioPlayer.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.WMP_RadioPlayer_PlayStateChange);
             // 
-            // clearStationsToolStripMenuItem
-            // 
-            this.clearStationsToolStripMenuItem.Name = "clearStationsToolStripMenuItem";
-            this.clearStationsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearStationsToolStripMenuItem.Text = "Clear Stations";
-            this.clearStationsToolStripMenuItem.Click += new System.EventHandler(this.clearStationsToolStripMenuItem_Click);
-            // 
             // RadioForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,7 +202,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximumSize = new System.Drawing.Size(260, 145);
+            this.MaximumSize = new System.Drawing.Size(260, 1450);
             this.MinimumSize = new System.Drawing.Size(260, 145);
             this.Name = "RadioForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
