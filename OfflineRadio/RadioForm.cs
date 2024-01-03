@@ -21,7 +21,7 @@ namespace OfflineRadio
             _settings = Settings.GetSettingsFromJson();
             InitializeComponent();
             _radioStations = new RadioStations();
-            WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
+
             WMP_RadioPlayer.settings.setMode("loop", true);
 
             if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
@@ -36,6 +36,17 @@ namespace OfflineRadio
             if (_settings.LastPlayState == true)
             {
                 PlayCurrentStation();
+            }
+            if (_settings.LastVolume > -1)
+            {
+                TrB_Volume.Value = _settings.LastVolume;
+                WMP_RadioPlayer.settings.volume = _settings.LastVolume;
+                LB_Volume.Text = _settings.LastVolume.ToString();
+            }
+            else
+            {
+                WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
+                _settings.LastVolume = TrB_Volume.Value;
             }
         }
         private void clearStationsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -112,6 +123,7 @@ namespace OfflineRadio
         {
             WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
             LB_Volume.Text = TrB_Volume.Value.ToString();
+            _settings.LastVolume = TrB_Volume.Value;
         }
 
         private void PlayCurrentStation()
@@ -131,6 +143,8 @@ namespace OfflineRadio
             if (e.newState.Equals((int)WMPPlayState.wmppsPlaying))
             {
                 double duration = WMP_RadioPlayer.currentMedia.duration;
+                if (duration <= 0)
+                { return; }
                 if (_currentStation.StartOffset < 0)
                 {
                     Random rand = new Random();

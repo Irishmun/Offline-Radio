@@ -16,50 +16,51 @@ namespace OfflineRadio
         public string StationsFolder { get; set; }
         public string CurrentStation { get; set; }
         public bool LastPlayState { get; set; }
+        public int LastVolume  { get; set; } = -1;
 
         private static string path;
 
-        public static Settings GetSettingsFromJson()
+    public static Settings GetSettingsFromJson()
+    {
+        path = new FileInfo(Assembly.GetExecutingAssembly().GetName().Name + ".json").FullName;
+        if (File.Exists(path) == false)
         {
-            path = new FileInfo(Assembly.GetExecutingAssembly().GetName().Name + ".json").FullName;
-            if (File.Exists(path) == false)
-            {
-                File.WriteAllText(path, string.Empty);
-            }
-            else
-            {
-                string json = File.ReadAllText(path);
-                if (isJson(json))
-                {
-                    return JsonSerializer.Deserialize<Settings>(File.ReadAllText(path));
-                }
-            }
-            return new Settings();
+            File.WriteAllText(path, string.Empty);
         }
-        public Settings()
-        { }
-
-        public void SaveSettings()
+        else
         {
-            string json = JsonSerializer.Serialize(this);
-            File.WriteAllText(path, json);
+            string json = File.ReadAllText(path);
+            if (isJson(json))
+            {
+                return JsonSerializer.Deserialize<Settings>(File.ReadAllText(path));
+            }
         }
+        return new Settings();
+    }
+    public Settings()
+    { }
+
+    public void SaveSettings()
+    {
+        string json = JsonSerializer.Serialize(this);
+        File.WriteAllText(path, json);
+    }
 
 
-        private static bool isJson(string source)
+    private static bool isJson(string source)
+    {
+        if (source == null)
+            return false;
+
+        try
         {
-            if (source == null)
-                return false;
-
-            try
-            {
-                JsonDocument.Parse(source);
-                return true;
-            }
-            catch (JsonException)
-            {
-                return false;
-            }
+            JsonDocument.Parse(source);
+            return true;
+        }
+        catch (JsonException)
+        {
+            return false;
         }
     }
+}
 }

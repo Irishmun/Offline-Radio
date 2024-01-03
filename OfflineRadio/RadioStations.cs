@@ -12,7 +12,7 @@ namespace OfflineRadio
 {
     internal class RadioStations
     {
-        private string[] AcceptedFileTypes = new string[] { ".mp3", ".flac", ".wav", ".aac" };
+        private string[] AcceptedFileTypes = new string[] { ".mp3", ".flac", ".wav", ".aac", ".asx" };
         private List<Station> _stations;
         /// <summary>Gets all the stations in the given folder. Will overwrite existing stations</summary>
         /// <param name="folder">folder to search in</param>
