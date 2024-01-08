@@ -65,7 +65,7 @@ namespace OfflineRadio
             {
                 if (_settings.StationsFolder == null || _settings.StationsFolder.Equals(string.Empty))
                 {
-                    folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+                    folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\";
                 }
                 else
                 {
@@ -88,6 +88,8 @@ namespace OfflineRadio
 
         private void BT_StartPlayback_Click(object sender, EventArgs e)
         {
+            if (WMP_RadioPlayer.playState.Equals(WMPPlayState.wmppsPlaying))
+            { return; }
             PlayCurrentStation();
             _settings.LastPlayState = true;
         }
@@ -97,27 +99,7 @@ namespace OfflineRadio
             StopPlaying();
         }
 
-        #region debug
-        private void showStationTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (WMP_RadioPlayer.currentMedia == null)
-            { return; }
-            MessageBox.Show("Current Station: " + WMP_RadioPlayer.currentMedia.name +
-                "\nCurrent Time: " + WMP_RadioPlayer.Ctlcontrols.currentPositionString);
-        }
 
-        private void showStationValuesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_radioStations.Stations == null || _radioStations.Stations.Count <= 0)
-            { return; }
-            StringBuilder str = new StringBuilder();
-            foreach (Station station in _radioStations.Stations)
-            {
-                str.AppendLine($"{station.Name}| {station.StartTime}| {station.StartOffset}");
-            }
-            MessageBox.Show(str.ToString());
-        }
-        #endregion
 
         private void TrB_Volume_Scroll(object sender, EventArgs e)
         {
@@ -140,6 +122,7 @@ namespace OfflineRadio
 
         private void WMP_RadioPlayer_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
+
             if (e.newState.Equals((int)WMPPlayState.wmppsPlaying))
             {
                 double duration = WMP_RadioPlayer.currentMedia.duration;
@@ -183,6 +166,28 @@ namespace OfflineRadio
         {
             _settings.SaveSettings();
         }
+
+
+        #region debug
+        private void showStationTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (WMP_RadioPlayer.currentMedia == null)
+            { return; }
+            MessageBox.Show($"Current Station: {WMP_RadioPlayer.currentMedia.name}\nCurrent Time: {WMP_RadioPlayer.Ctlcontrols.currentPositionString}/{WMP_RadioPlayer.currentMedia.durationString}");
+        }
+
+        private void showStationValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_radioStations.Stations == null || _radioStations.Stations.Count <= 0)
+            { return; }
+            StringBuilder str = new StringBuilder();
+            foreach (Station station in _radioStations.Stations)
+            {
+                str.AppendLine($"{station.Name}| {station.StartTime}| {station.StartOffset}");
+            }
+            MessageBox.Show(str.ToString());
+        }
+        #endregion
     }
 }
 
