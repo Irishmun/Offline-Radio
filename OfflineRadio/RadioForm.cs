@@ -22,6 +22,10 @@ namespace OfflineRadio
             InitializeComponent();
             _radioStations = new RadioStations();
 
+#if !DEBUG
+            debugToolStripMenuItem.Visible = false;
+#endif
+
             WMP_RadioPlayer.settings.setMode("loop", true);
 
             if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
