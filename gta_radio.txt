@@ -1,0 +1,142 @@
+=====values=====
+dj speech categories:
+- INTRO (introduction of the song that is starting)
+- OUTRO (commentary when the song is ending)
+- GENERAL (generic message before song, not specifying any song in particular)
+- TIME (refering to the time of day, e.g. morning, noon, evening, night)
+- TO (switching over to non music content, advertising, news, etc.)
+=not part of enum=
+- channel Id
+- solo monologues
+
+dj minimum time between repeated categories:
+"The minimum amount of time that must pass (in milliseconds) between repeated playback of a DJ speech category."
+- INTRO = 0ms
+- OUTRO = 0ms
+- GENERAL = 45.000ms "45s, to prevent back to back generals when driven by score"
+- TIME = 1.800.000ms "30 mins"
+- TO = 0ms
+
+dj contexts:
+Time:
+- MORNING
+- AFTERNOON
+- EVENING
+- NIGHT
+To:
+- TO_AD
+- TO_NEWS
+- TO_WEATHER
+
+weather contexts:
+- FOG
+- RAIN
+- WIND
+- SUN
+- CLOUD
+
+dj speech probability: 0.8f (80% chance) "Prob of DJ speech playing within a valid window." any speech whatsover
+dj outro speech probability: 0.275f (27,5% chance) "Prob of DJ speech playing within valid window." outro speech [only on motomami]
+dj time probability: 0.5f (50% chance) "Prob of time banter playing instead of intro." (only with valid timeframes)
+
+dj day times:
+- morning: 5:00 to 9:00
+- afternoon: 12:00 to 16:00
+- evening: 17:00 to 20:00
+- night: 21:00 to 3:00
+
+
+
+=====methods=====
+
+void Init ()
+{
+	for each radio track category
+	{
+		"Randomly distribute the valid start times for each category across the stations"
+		get random number between (timer time in milliseconds) and [dj minimum time between repeated categories] of that category;
+		add that value to array of [next valid selection times];
+		set category stride at this index to 0
+	}
+	
+	for each tracklist
+	{
+		get the track list of the station;
+		if it isn't null
+		{	
+			if the category is music, [add music track list];
+			otherwise, [add track list];
+		}
+	}
+
+	set listen timer to 0;
+	set genre based on radio station;
+	clear queued tracklist;
+	set queued tracklist index to 0;
+
+}
+
+void randomizeCategoryStride(TrackCats category, numTracksAvailable,bool randomizeStartTrack, bool maintainDirection) <-- category stride seems to be which way a specific category itterates over its collection. This function seems to be called within a loop somewhere else
+{
+	if numTracksAvailable is NOT more than 0, return;
+
+	"Pick a random stride per-category (current either just steps forwards or backwards through tracks)"
+	if maintainDirection is false, pick a random number between 0 and 1; if more/equal than 0.5, stride backwards, otherwise stride forwards in category;
+	"Normalize back to -1 or 1 depending on previously picked direction"
+	if maintDirection is true, categorystride will be equal to whatever it was before (-1 or 1)
+	
+	"If we've got an odd number of tracks, we can step through two at a time for extra variety without repeating"
+	if numTracksAvailable is uneven (and NEW random number is more than 0.5 ???), multiply category stride by 2
+	
+	if (able to find station history ???), then if randomizeStarTrack is true OR the history's 0th index is -1:
+	"Pick a random start track per-category"
+	set history's 0th index to random number between 0 and numTracksAvailable-1;
+	set write index of history to 1(?)
+	
+}
+
+
+void queuetracklist (tracklist, bool forcenow)
+{
+	if empty tracklist, notify and stop;
+	if queued tracklist exists, notify replacing with new queue; (clear it and start over)
+
+	if "tristate value" of tracklist is "tristate true" (no idea what tristate is)
+	{
+		create tracklist array "shuffler";
+		for the number of tracks in the radio station tracklist
+		{
+			"push recently heard tracks to the back of the queue"
+			if track is in history, put at end of shuffler
+			else put track in random spot of shuffler
+		}
+		sort shuffler by "TrackEntryCompare" (return trackEntry_A's order - trackEntry_B's order)[order being an unsigned 8 bit integer]
+		create array of tracks of MAX_TRACKS length "tracks"
+		put array at memory position, allocate all tracks memory in size? (sysMemCpy)
+		
+		for the number of tracks in the radio station tracklist
+		{
+			put contents of shuffler into "tracks"
+		}		
+	}
+
+	get current "active" track
+	get next track index
+	get next track at said index
+	
+	if forcenow is true
+	{
+		if next track is initialised, shut it down;
+		if current "active" track is initialised, shut it down;
+	}
+	else
+	{
+		"if there's time, cancel the next track and choose again"
+
+		if nexttrack is initialised 
+		AND active track is initialised 
+		AND active track "duration" - active track "play time" > 45000 value, shut down next track
+	}
+
+	notify queue creation complete
+}

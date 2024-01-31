@@ -1,0 +1,36 @@
+song
+id
+song
+general?/intro (we'll all live on boats and listen to these great tracks)
+song
+general (the 80's will live on forever)
+song
+id
+song
+general
+song
+solo mono (radioactive waste floating to san andreas)
+song
+id
+song
+general
+song
+
+
+===GTA FM====
+id
+intro in song
+ad
+song
+news
+id
+song (with outro)
+general
+song (with intro)
+ad
+id
+song (with intro)
+ad
+id
+song (with intro)
+
