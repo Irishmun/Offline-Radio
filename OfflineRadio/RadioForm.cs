@@ -2,7 +2,6 @@
 using System;
 #if DEBUG
 using System.Diagnostics;
-using System.IO;
 #endif
 using System.Text;
 using System.Windows.Forms;
@@ -10,7 +9,7 @@ using WMPLib;
 
 namespace OfflineRadio
 {
-    public partial class RadioForm : Form
+    public partial class RadioForm : AnchoredForm
     {
         private Station _currentStation;
         private RadioStations _radioStations;
@@ -18,39 +17,50 @@ namespace OfflineRadio
 
         public RadioForm()
         {
-            _settings = Settings.GetSettingsFromJson();
-            InitializeComponent();
-            _radioStations = new RadioStations();
+            try
+            {
+
+                _settings = Settings.GetSettingsFromJson();
+                InitializeComponent();
+                _radioStations = new RadioStations();
 
 #if !DEBUG
-            debugToolStripMenuItem.Visible = false;
+                debugToolStripMenuItem.Visible = false;
 #endif
 
-            WMP_RadioPlayer.settings.setMode("loop", true);
 
-            if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
-            {
-                _radioStations.Stations = _settings.SavedStations;
-                PopulateStations();
+                if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
+                {
+                    _radioStations.Stations = _settings.SavedStations;
+                    PopulateStations();
+                }
+                if (_settings.CurrentStation != null && _settings.CurrentStation.Equals(string.Empty) == false)
+                {
+                    CbB_Stations.SelectedIndex = CbB_Stations.Items.IndexOf(_settings.CurrentStation);
+                }
+                if (_settings.LastPlayState == true)
+                {
+                    PlayCurrentStation();
+                }
+                if (_settings.LastVolume > -1)
+                {
+                    TrB_Volume.Value = _settings.LastVolume;
+                    WMP_RadioPlayer.settings.volume = _settings.LastVolume;
+                    LB_Volume.Text = _settings.LastVolume.ToString();
+                }
+                else
+                {
+                    WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
+                    _settings.LastVolume = TrB_Volume.Value;
+                }
+
+                RefreshRadioStation(_settings.StationsFolder);
+                WMP_RadioPlayer.settings.setMode("loop", true);
             }
-            if (_settings.CurrentStation != null && _settings.CurrentStation.Equals(string.Empty) == false)
+            catch (Exception e)
             {
-                CbB_Stations.SelectedIndex = CbB_Stations.Items.IndexOf(_settings.CurrentStation);
-            }
-            if (_settings.LastPlayState == true)
-            {
-                PlayCurrentStation();
-            }
-            if (_settings.LastVolume > -1)
-            {
-                TrB_Volume.Value = _settings.LastVolume;
-                WMP_RadioPlayer.settings.volume = _settings.LastVolume;
-                LB_Volume.Text = _settings.LastVolume.ToString();
-            }
-            else
-            {
-                WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
-                _settings.LastVolume = TrB_Volume.Value;
+
+                throw e;
             }
         }
         private void clearStationsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -67,7 +77,7 @@ namespace OfflineRadio
         {
             using (FolderBrowserDialog folder = new FolderBrowserDialog())
             {
-                if (_settings.StationsFolder == null || _settings.StationsFolder.Equals(string.Empty))
+                if (string.IsNullOrEmpty(_settings.StationsFolder))
                 {
                     folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\";
                 }
@@ -78,16 +88,20 @@ namespace OfflineRadio
                 if (folder.ShowDialog() == DialogResult.OK)
                 {
                     _settings.StationsFolder = folder.SelectedPath;
-                    if (_radioStations.AppendOrUpdateStations(folder.SelectedPath) == true)
-                    {
-                        StopPlaying();
-                        PopulateStations();
-                        _settings.SavedStations = _radioStations.Stations;
-                        CbB_Stations.SelectedIndex = 0;
-                    }
+                    RefreshRadioStation(_settings.StationsFolder);
                 }
             }
             _settings.SaveSettings();
+        }
+
+        private void refreshStationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_settings.StationsFolder))
+            {
+                selectFolderToolStripMenuItem_Click(sender, e);
+                return;
+            }
+            RefreshRadioStation(_settings.StationsFolder);
         }
 
         private void BT_StartPlayback_Click(object sender, EventArgs e)
@@ -103,8 +117,6 @@ namespace OfflineRadio
             StopPlaying();
         }
 
-
-
         private void TrB_Volume_Scroll(object sender, EventArgs e)
         {
             WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
@@ -116,12 +128,16 @@ namespace OfflineRadio
         {
             _currentStation = _radioStations.GetStation((string)CbB_Stations.SelectedItem);
             WMP_RadioPlayer.URL = _currentStation.AudioFile;
+            BT_StartPlayback.Enabled = false;
+            BT_StopPlayback.Enabled = true;
         }
 
         private void StopPlaying()
         {
             WMP_RadioPlayer.Ctlcontrols.stop();
             _settings.LastPlayState = false;
+            BT_StartPlayback.Enabled = true;
+            BT_StopPlayback.Enabled = false;
         }
 
         private void WMP_RadioPlayer_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
@@ -157,6 +173,17 @@ namespace OfflineRadio
             _settings.CurrentStation = (string)CbB_Stations.SelectedItem;
         }
 
+        private void RadioForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _settings.SaveSettings();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 box = new AboutBox1();
+            box.ShowDialog();
+        }
+
         private void PopulateStations()
         {
             CbB_Stations.Items.Clear();
@@ -165,12 +192,16 @@ namespace OfflineRadio
                 CbB_Stations.Items.Add(_radioStations.Stations[i].Name);
             }
         }
-
-        private void RadioForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void RefreshRadioStation(string folder)
         {
-            _settings.SaveSettings();
+            if (_radioStations.AppendOrUpdateStations(folder) == true)
+            {
+                StopPlaying();
+                PopulateStations();
+                _settings.SavedStations = _radioStations.Stations;
+                CbB_Stations.SelectedIndex = 0;
+            }
         }
-
 
         #region debug
         private void showStationTimeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -192,6 +223,9 @@ namespace OfflineRadio
             MessageBox.Show(str.ToString());
         }
         #endregion
+
+
+
     }
 }
 
