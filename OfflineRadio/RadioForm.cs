@@ -17,51 +17,42 @@ namespace OfflineRadio
 
         public RadioForm()
         {
-            try
-            {
-
-                _settings = Settings.GetSettingsFromJson();
-                InitializeComponent();
-                _radioStations = new RadioStations();
+            _settings = Settings.GetSettingsFromJson();
+            InitializeComponent();
+            _radioStations = new RadioStations();
 
 #if !DEBUG
                 debugToolStripMenuItem.Visible = false;
 #endif
 
 
-                if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
-                {
-                    _radioStations.Stations = _settings.SavedStations;
-                    PopulateStations();
-                }
-                if (_settings.CurrentStation != null && _settings.CurrentStation.Equals(string.Empty) == false)
-                {
-                    CbB_Stations.SelectedIndex = CbB_Stations.Items.IndexOf(_settings.CurrentStation);
-                }
-                if (_settings.LastPlayState == true)
-                {
-                    PlayCurrentStation();
-                }
-                if (_settings.LastVolume > -1)
-                {
-                    TrB_Volume.Value = _settings.LastVolume;
-                    WMP_RadioPlayer.settings.volume = _settings.LastVolume;
-                    LB_Volume.Text = _settings.LastVolume.ToString();
-                }
-                else
-                {
-                    WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
-                    _settings.LastVolume = TrB_Volume.Value;
-                }
-
-                RefreshRadioStation(_settings.StationsFolder);
-                WMP_RadioPlayer.settings.setMode("loop", true);
-            }
-            catch (Exception e)
+            if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
             {
-
-                throw e;
+                _radioStations.Stations = _settings.SavedStations;
+                PopulateStations();
             }
+            if (_settings.CurrentStation != null && _settings.CurrentStation.Equals(string.Empty) == false)
+            {
+                CbB_Stations.SelectedIndex = CbB_Stations.Items.IndexOf(_settings.CurrentStation);
+            }
+            if (_settings.LastPlayState == true)
+            {
+                PlayCurrentStation();
+            }
+            if (_settings.LastVolume > -1)
+            {
+                TrB_Volume.Value = _settings.LastVolume;
+                WMP_RadioPlayer.settings.volume = _settings.LastVolume;
+                LB_Volume.Text = _settings.LastVolume.ToString();
+            }
+            else
+            {
+                WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
+                _settings.LastVolume = TrB_Volume.Value;
+            }
+
+            RefreshRadioStation(_settings.StationsFolder);
+            WMP_RadioPlayer.settings.setMode("loop", true);
         }
         private void clearStationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -194,6 +185,10 @@ namespace OfflineRadio
         }
         private void RefreshRadioStation(string folder)
         {
+            if (string.IsNullOrWhiteSpace(folder))
+            {
+                return;
+            }
             if (_radioStations.AppendOrUpdateStations(folder) == true)
             {
                 StopPlaying();

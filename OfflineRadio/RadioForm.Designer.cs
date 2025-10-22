@@ -119,18 +119,19 @@
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
+            this.debugToolStripMenuItem.Visible = false;
             // 
             // showStationTimeToolStripMenuItem
             // 
             this.showStationTimeToolStripMenuItem.Name = "showStationTimeToolStripMenuItem";
-            this.showStationTimeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.showStationTimeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showStationTimeToolStripMenuItem.Text = "Show Station Time";
             this.showStationTimeToolStripMenuItem.Click += new System.EventHandler(this.showStationTimeToolStripMenuItem_Click);
             // 
             // showStationValuesToolStripMenuItem
             // 
             this.showStationValuesToolStripMenuItem.Name = "showStationValuesToolStripMenuItem";
-            this.showStationValuesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.showStationValuesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showStationValuesToolStripMenuItem.Text = "Show Station Values";
             this.showStationValuesToolStripMenuItem.Click += new System.EventHandler(this.showStationValuesToolStripMenuItem_Click);
             // 
