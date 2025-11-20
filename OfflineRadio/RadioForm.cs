@@ -217,10 +217,14 @@ namespace OfflineRadio
             }
             MessageBox.Show(str.ToString());
         }
+
+
         #endregion
 
-
-
+        private void topMostToolStripMenuItem1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.TopMost = topMostToolStripMenuItem1.Checked;
+        }
     }
 }
 

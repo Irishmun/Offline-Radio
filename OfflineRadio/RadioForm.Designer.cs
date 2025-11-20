@@ -47,6 +47,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.LB_Volume = new System.Windows.Forms.Label();
             this.WMP_RadioPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            this.topMostToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrB_Volume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WMP_RadioPlayer)).BeginInit();
@@ -99,7 +100,8 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem1});
+            this.aboutToolStripMenuItem1,
+            this.topMostToolStripMenuItem1});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.aboutToolStripMenuItem.Text = "Help";
@@ -107,7 +109,7 @@
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -124,14 +126,14 @@
             // showStationTimeToolStripMenuItem
             // 
             this.showStationTimeToolStripMenuItem.Name = "showStationTimeToolStripMenuItem";
-            this.showStationTimeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showStationTimeToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.showStationTimeToolStripMenuItem.Text = "Show Station Time";
             this.showStationTimeToolStripMenuItem.Click += new System.EventHandler(this.showStationTimeToolStripMenuItem_Click);
             // 
             // showStationValuesToolStripMenuItem
             // 
             this.showStationValuesToolStripMenuItem.Name = "showStationValuesToolStripMenuItem";
-            this.showStationValuesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showStationValuesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.showStationValuesToolStripMenuItem.Text = "Show Station Values";
             this.showStationValuesToolStripMenuItem.Click += new System.EventHandler(this.showStationValuesToolStripMenuItem_Click);
             // 
@@ -214,6 +216,14 @@
             this.WMP_RadioPlayer.Visible = false;
             this.WMP_RadioPlayer.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.WMP_RadioPlayer_PlayStateChange);
             // 
+            // topMostToolStripMenuItem1
+            // 
+            this.topMostToolStripMenuItem1.CheckOnClick = true;
+            this.topMostToolStripMenuItem1.Name = "topMostToolStripMenuItem1";
+            this.topMostToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.topMostToolStripMenuItem1.Text = "Always On Top";
+            this.topMostToolStripMenuItem1.CheckedChanged += new System.EventHandler(this.topMostToolStripMenuItem1_CheckedChanged);
+            // 
             // RadioForm
             // 
             this.AnchorDistance = -7;
@@ -268,5 +278,6 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem refreshStationsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem topMostToolStripMenuItem1;
     }
 }
