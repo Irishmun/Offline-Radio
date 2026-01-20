@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "OfflineRadio": {
+      "commandName": "Project",
+      "nativeDebugging": true,
+      "hotReloadEnabled": false
+    }
+  }
+}

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Eto.Drawing;
+using Eto.Forms;
+using System;
 
 namespace OfflineRadio
 {
-    internal static class Program
+    internal class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RadioForm());
+            new Application().Run(new RadioForm());
         }
     }
 }

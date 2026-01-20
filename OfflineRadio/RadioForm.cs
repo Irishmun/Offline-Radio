@@ -1,30 +1,28 @@
-﻿using OfflineRadio.Stations;
+using Eto.Drawing;
+using Eto.Forms;
+using OfflineRadio.Audio;
+using OfflineRadio.Stations;
 using System;
-#if DEBUG
+using System.Collections.Generic;
 using System.Diagnostics;
-#endif
-using System.Text;
-using System.Windows.Forms;
-using WMPLib;
 
 namespace OfflineRadio
 {
-    public partial class RadioForm : AnchoredForm
+    public partial class RadioForm : Form
     {
         private Station _currentStation;
         private RadioStations _radioStations;
         private Settings _settings;
+        private AudioPlayer _player;
 
         public RadioForm()
         {
             _settings = Settings.GetSettingsFromJson();
+            _player = new AudioPlayer();
             InitializeComponent();
+
+
             _radioStations = new RadioStations();
-
-#if !DEBUG
-                debugToolStripMenuItem.Visible = false;
-#endif
-
 
             if (_settings.SavedStations != null && _settings.SavedStations.Count > 0)
             {
@@ -33,7 +31,7 @@ namespace OfflineRadio
             }
             if (_settings.CurrentStation != null && _settings.CurrentStation.Equals(string.Empty) == false)
             {
-                CbB_Stations.SelectedIndex = CbB_Stations.Items.IndexOf(_settings.CurrentStation);
+                CbB_Stations.SelectedKey = _settings.CurrentStation;
             }
             if (_settings.LastPlayState == true)
             {
@@ -41,20 +39,63 @@ namespace OfflineRadio
             }
             if (_settings.LastVolume > -1)
             {
-                TrB_Volume.Value = _settings.LastVolume;
-                WMP_RadioPlayer.settings.volume = _settings.LastVolume;
+                Sl_Volume.Value = _settings.LastVolume;
+                _player.SetVolume(_settings.LastVolume);
                 LB_Volume.Text = _settings.LastVolume.ToString();
             }
             else
             {
-                WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
-                _settings.LastVolume = TrB_Volume.Value;
+                _player.SetVolume(Sl_Volume.Value);
+                _settings.LastVolume = Sl_Volume.Value;
             }
 
             RefreshRadioStation(_settings.StationsFolder);
-            WMP_RadioPlayer.settings.setMode("loop", true);
+            _player.SetLoopMode(true);
         }
-        private void clearStationsToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            StopPlaying();
+            _settings.SaveSettings();
+        }
+
+        private void BT_StartPlayback_Click(object sender, EventArgs e)
+        {
+            if (_player.IsPlaying)
+            { return; }
+            PlayCurrentStation();
+            _settings.LastPlayState = true;
+#if DEBUG
+            Debug.WriteLine($"time at end: {_player.CurrentTime}");
+#endif
+        }
+
+        private void BT_StopPlayback_Click(object sender, EventArgs e)
+        {
+            StopPlaying();
+            _settings.LastPlayState = false;
+        }
+
+        private void Sl_Volume_ValueChanged(object sender, EventArgs e)
+        {
+            LB_Volume.Text = Sl_Volume.Value.ToString();
+            _player.SetVolume(Sl_Volume.Value);
+        }
+
+        private void CbB_Stations_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_player.IsPlaying)
+            {
+                PlayCurrentStation();
+            }
+            _settings.CurrentStation = CbB_Stations.SelectedValue.ToString();
+
+#if DEBUG
+            Debug.WriteLine($"time at end: {_player.CurrentTime}");
+#endif
+        }
+
+        private void ClearStationsCommand_Executed(object sender, EventArgs e)
         {
             StopPlaying();
             CbB_Stations.Items.Clear();
@@ -64,115 +105,56 @@ namespace OfflineRadio
             _settings.SavedStations.Clear();
         }
 
-        private void selectFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RefreshStationsCommand_Executed(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog folder = new FolderBrowserDialog())
+            if (string.IsNullOrEmpty(_settings.StationsFolder))
+            {
+                selectFolderCommand.Execute();
+                return;
+            }
+            RefreshRadioStation(_settings.StationsFolder);
+        }
+
+        private void SelectFolderCommand_Executed(object sender, EventArgs e)
+        {
+            using (SelectFolderDialog folder = new SelectFolderDialog())
             {
                 if (string.IsNullOrEmpty(_settings.StationsFolder))
                 {
-                    folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\";
+                    folder.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\";
                 }
                 else
                 {
-                    folder.SelectedPath = _settings.StationsFolder;
+                    folder.Directory = _settings.StationsFolder;
                 }
-                if (folder.ShowDialog() == DialogResult.OK)
+                if (folder.ShowDialog(this) == DialogResult.Ok)
                 {
-                    _settings.StationsFolder = folder.SelectedPath;
+                    _settings.StationsFolder = folder.Directory;
                     RefreshRadioStation(_settings.StationsFolder);
                 }
             }
             _settings.SaveSettings();
         }
 
-        private void refreshStationsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TopMostToolStripMenuItem_Executed(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_settings.StationsFolder))
-            {
-                selectFolderToolStripMenuItem_Click(sender, e);
-                return;
-            }
-            RefreshRadioStation(_settings.StationsFolder);
-        }
-
-        private void BT_StartPlayback_Click(object sender, EventArgs e)
-        {
-            if (WMP_RadioPlayer.playState.Equals(WMPPlayState.wmppsPlaying))
-            { return; }
-            PlayCurrentStation();
-            _settings.LastPlayState = true;
-        }
-
-        private void BT_StopPlayback_Click(object sender, EventArgs e)
-        {
-            StopPlaying();
-        }
-
-        private void TrB_Volume_Scroll(object sender, EventArgs e)
-        {
-            WMP_RadioPlayer.settings.volume = TrB_Volume.Value;
-            LB_Volume.Text = TrB_Volume.Value.ToString();
-            _settings.LastVolume = TrB_Volume.Value;
+            this.Topmost = topMostToolStripMenuItem.Checked;
         }
 
         private void PlayCurrentStation()
         {
-            _currentStation = _radioStations.GetStation((string)CbB_Stations.SelectedItem);
-            WMP_RadioPlayer.URL = _currentStation.AudioFile;
+            _currentStation = _radioStations.GetStation(CbB_Stations.SelectedValue.ToString());
+            _player.StartPlayback(ref _currentStation);
+            _radioStations.UpdateStationValue(CbB_Stations.SelectedIndex, _currentStation);
             BT_StartPlayback.Enabled = false;
             BT_StopPlayback.Enabled = true;
         }
 
         private void StopPlaying()
         {
-            WMP_RadioPlayer.Ctlcontrols.stop();
-            _settings.LastPlayState = false;
+            _player.StopPlayback();
             BT_StartPlayback.Enabled = true;
             BT_StopPlayback.Enabled = false;
-        }
-
-        private void WMP_RadioPlayer_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
-        {
-
-            if (e.newState.Equals((int)WMPPlayState.wmppsPlaying))
-            {
-                double duration = WMP_RadioPlayer.currentMedia.duration;
-                if (duration <= 0)
-                { return; }
-                if (_currentStation.StartOffset < 0)
-                {
-                    Random rand = new Random();
-                    int index = _radioStations.Stations.IndexOf(_currentStation);
-                    _currentStation.StartOffset = rand.NextDouble() * duration;
-                    _radioStations.UpdateStationValue(index, _currentStation);
-                }
-                DateTime currentTime = DateTime.Now;
-                double offset = ((currentTime - _currentStation.StartTime).TotalSeconds + _currentStation.StartOffset) % duration;
-                WMP_RadioPlayer.Ctlcontrols.currentPosition = offset;
-#if DEBUG
-                Debug.WriteLine($"(offset: {offset}){WMP_RadioPlayer.Ctlcontrols.currentPosition}");
-#endif
-            }
-        }
-
-        private void CbB_Stations_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (WMP_RadioPlayer.playState.Equals(WMPPlayState.wmppsPlaying))
-            {
-                PlayCurrentStation();
-            }
-            _settings.CurrentStation = (string)CbB_Stations.SelectedItem;
-        }
-
-        private void RadioForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            _settings.SaveSettings();
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AboutBox1 box = new AboutBox1();
-            box.ShowDialog();
         }
 
         private void PopulateStations()
@@ -197,34 +179,5 @@ namespace OfflineRadio
                 CbB_Stations.SelectedIndex = 0;
             }
         }
-
-        #region debug
-        private void showStationTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (WMP_RadioPlayer.currentMedia == null)
-            { return; }
-            MessageBox.Show($"Current Station: {WMP_RadioPlayer.currentMedia.name}\nCurrent Time: {WMP_RadioPlayer.Ctlcontrols.currentPositionString}/{WMP_RadioPlayer.currentMedia.durationString}");
-        }
-
-        private void showStationValuesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_radioStations.Stations == null || _radioStations.Stations.Count <= 0)
-            { return; }
-            StringBuilder str = new StringBuilder();
-            foreach (Station station in _radioStations.Stations)
-            {
-                str.AppendLine($"{station.Name}| {station.StartTime}| {station.StartOffset}");
-            }
-            MessageBox.Show(str.ToString());
-        }
-
-
-        #endregion
-
-        private void topMostToolStripMenuItem1_CheckedChanged(object sender, EventArgs e)
-        {
-            this.TopMost = topMostToolStripMenuItem1.Checked;
-        }
     }
 }
-

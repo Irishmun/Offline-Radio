@@ -1,18 +1,16 @@
-﻿using OfflineRadio.Stations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using System.Linq;
 #if DEBUG
 using System.Diagnostics;
 #endif
 
-namespace OfflineRadio
+namespace OfflineRadio.Stations
 {
     internal class RadioStations
     {
-        private string[] AcceptedFileTypes = new string[] { ".mp3", ".flac", ".wav", ".aac", ".asx" };
+        private string[] AcceptedFileTypes = new string[] { ".mp3", ".flac", ".wav", ".aac"};//{ ".mp3", ".flac", ".wav", ".aac", ".asx" };
         private List<Station> _stations;
         /// <summary>Gets all the stations in the given folder. Will overwrite existing stations</summary>
         /// <param name="folder">folder to search in</param>
