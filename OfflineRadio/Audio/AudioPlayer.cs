@@ -1,11 +1,7 @@
 ﻿using NAudio.Wave;
 using OfflineRadio.Stations;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OfflineRadio.Audio
 {
@@ -95,7 +91,7 @@ namespace OfflineRadio.Audio
                 station.StartOffset = rand.NextDouble() * duration;
             }
             DateTime currentTime = DateTime.Now;
-            TimeSpan offset = TimeSpan.FromSeconds(((currentTime - station.StartTime).Seconds + station.StartOffset) % duration);
+            TimeSpan offset = TimeSpan.FromSeconds(((currentTime - station.StartTime).TotalSeconds + station.StartOffset) % duration);
 
             _audioFile.CurrentTime = offset;
 
