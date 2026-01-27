@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio", "OfflineRadio.csproj", "{E1828720-23AE-41A0-9979-31FBBD202EDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio", "OfflineRadio\OfflineRadio.csproj", "{8805C989-575F-44C1-8425-2F95DAD8DA01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio.Gtk", "OfflineRadio.Gtk\OfflineRadio.Gtk.csproj", "{389A86CD-0F46-4F24-B750-F3038F0C4C66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio.Mac", "OfflineRadio.Mac\OfflineRadio.Mac.csproj", "{F9E5FBFB-0180-4512-8FD4-BF67A7E0B064}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineRadio.Wpf", "OfflineRadio.Wpf\OfflineRadio.Wpf.csproj", "{928BE913-3A45-484F-B730-B34720F18AEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +17,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E1828720-23AE-41A0-9979-31FBBD202EDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1828720-23AE-41A0-9979-31FBBD202EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1828720-23AE-41A0-9979-31FBBD202EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1828720-23AE-41A0-9979-31FBBD202EDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8805C989-575F-44C1-8425-2F95DAD8DA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8805C989-575F-44C1-8425-2F95DAD8DA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8805C989-575F-44C1-8425-2F95DAD8DA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8805C989-575F-44C1-8425-2F95DAD8DA01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{389A86CD-0F46-4F24-B750-F3038F0C4C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{389A86CD-0F46-4F24-B750-F3038F0C4C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{389A86CD-0F46-4F24-B750-F3038F0C4C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{389A86CD-0F46-4F24-B750-F3038F0C4C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E5FBFB-0180-4512-8FD4-BF67A7E0B064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E5FBFB-0180-4512-8FD4-BF67A7E0B064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E5FBFB-0180-4512-8FD4-BF67A7E0B064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E5FBFB-0180-4512-8FD4-BF67A7E0B064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{928BE913-3A45-484F-B730-B34720F18AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{928BE913-3A45-484F-B730-B34720F18AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{928BE913-3A45-484F-B730-B34720F18AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{928BE913-3A45-484F-B730-B34720F18AEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F72DEAA3-7348-4DD3-AC42-C68205D48669}
+		SolutionGuid = {E4309460-1995-4278-A2F5-9836CB33F1B4}
 	EndGlobalSection
 EndGlobal

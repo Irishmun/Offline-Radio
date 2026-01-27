@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+	<PropertyGroup>
+    		<TargetFramework>netstandard2.1</TargetFramework>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<Copyright>Copyright Steef van de Weijdeven © 2025</Copyright>
+		<FileVersion>1.3.0.0</FileVersion>
+		<AssemblyVersion>1.3.0.0</AssemblyVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="icon.ico" />
+	</ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Eto.Forms" Version="2.10.2" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Core" Version="2.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+</Project>

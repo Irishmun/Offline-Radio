@@ -48,6 +48,8 @@ namespace OfflineRadio
                 _player.SetVolume(Sl_Volume.Value);
                 _settings.LastVolume = Sl_Volume.Value;
             }
+            topMostToolStripMenuItem.Checked = _settings.LastOnTop;
+            this.Topmost = _settings.LastOnTop;
 
             RefreshRadioStation(_settings.StationsFolder);
             _player.SetLoopMode(true);
@@ -139,6 +141,7 @@ namespace OfflineRadio
         private void TopMostToolStripMenuItem_Executed(object sender, EventArgs e)
         {
             this.Topmost = topMostToolStripMenuItem.Checked;
+            _settings.LastOnTop = this.Topmost;
         }
 
         private void PlayCurrentStation()

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OfflineRadio.Wpf": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

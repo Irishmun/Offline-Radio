@@ -9,12 +9,9 @@ namespace OfflineRadio
         void InitializeComponent()
         {
             Title = "Radio";
-            MinimumSize = new Size(260, 145);
+            MinimumSize = new Size(264, 147);
             Size = MinimumSize;
             Resizable = false;
-            Location = new Point(
-                (int)(this.Screen.WorkingArea.Size.Width * 0.5f - Size.Width * 0.5f),
-                (int)(this.Screen.WorkingArea.Size.Height * 0.5f - Size.Height * 0.5f));
 
             //menu strip
 
@@ -45,7 +42,7 @@ namespace OfflineRadio
             Sl_Volume = new Slider {Value = 100, MaxValue = 100, MinValue = 0, TickFrequency = 5, Size = new Size(186, 45), TabIndex =2 };
             Sl_Volume.ValueChanged += Sl_Volume_ValueChanged;
 
-            CbB_Stations = new ComboBox { Size = new Size(181, 21) ,TabIndex = 3};
+            CbB_Stations = new ComboBox { Size = new Size(181, 19) ,TabIndex = 3};
             CbB_Stations.SelectedIndexChanged += CbB_Stations_SelectedIndexChanged;
 
             LB_Volume = new Label { Text = Sl_Volume.Value.ToString() };
@@ -58,8 +55,8 @@ namespace OfflineRadio
             layout.Add(BT_StartPlayback, 10, 27);
             layout.Add(BT_StopPlayback, 126, 27);
             layout.Add(Sl_Volume, 48, 50);
-            layout.Add(CbB_Stations, 56, 2);
-            layout.Add(label1, 10, 2);
+            layout.Add(CbB_Stations, 56, 0);
+            layout.Add(label1, 8, 3);
             layout.Add(label2, 2, 50);
             layout.Add(LB_Volume, 10, 63);
 
