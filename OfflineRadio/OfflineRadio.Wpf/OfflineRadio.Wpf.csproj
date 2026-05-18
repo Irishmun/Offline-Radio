@@ -13,4 +13,10 @@
     <PackageReference Include="Eto.Platform.Windows" Version="2.10.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="bass.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

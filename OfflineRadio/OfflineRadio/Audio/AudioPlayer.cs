@@ -1,4 +1,5 @@
-﻿using NAudio.Wave;
+﻿//using NAudio.Wave;
+using ManagedBass;
 using OfflineRadio.Stations;
 using System;
 using System.Diagnostics;
@@ -8,25 +9,30 @@ namespace OfflineRadio.Audio
     public class AudioPlayer
     {
 
-        private WaveOutEvent _output;
-        private AudioFileReader _audioFile;
+        //private WaveOutEvent _output;
+        //private AudioFileReader _audioFile;
+
+        private int? currentHandle = null;
 
         private bool shouldLoop = false;
 
         public AudioPlayer()
         {
-            _output = new WaveOutEvent();
+            //_output = new WaveOutEvent();
         }
 
         public void SetVolume(int volume)
         {
-            _output.Volume = (float)volume * 0.01f;
+            //_output.Volume = (float)volume * 0.01f;
         }
 
         public void StartPlayback(ref Station currentStation)
         {
+            Bass.Init();
+            currentHandle = Bass.CreateStream(currentStation.AudioFile);
+            Bass.ChannelPlay((int)currentHandle);
 
-            if (_audioFile?.FileName != currentStation.AudioFile)
+            /*if (_audioFile?.FileName != currentStation.AudioFile)
             {
                 _audioFile?.Dispose();
                 _audioFile = null;
@@ -56,15 +62,22 @@ namespace OfflineRadio.Audio
 
 #if DEBUG
             Debug.WriteLine($"current time: {_audioFile.CurrentTime}");
-#endif
+#endif*/
         }
 
         public void StopPlayback()
         {
-            if (_output == null)
+            if (currentHandle == null)
+            {
+                return;
+            }
+            Bass.ChannelStop((int)currentHandle);
+            Bass.Free();
+            currentHandle = null;
+            /*if (_output == null)
             { return; }
             _output.PlaybackStopped -= _audio_PlaybackStopped;
-            _output.Stop();
+            _output.Stop();*/
         }
 
 
@@ -73,14 +86,14 @@ namespace OfflineRadio.Audio
             shouldLoop = loop;
         }
 
-        private void _audio_PlaybackStopped(object sender, StoppedEventArgs e)
-        {
-            _audioFile.CurrentTime = TimeSpan.Zero;
-        }
+        /* private void _audio_PlaybackStopped(object sender, StoppedEventArgs e)
+         {
+             _audioFile.CurrentTime = TimeSpan.Zero;
+         }*/
 
         private void SetPlaybackPosition(ref Station station)
         {
-            double duration = _audioFile.TotalTime.TotalSeconds;
+            /*double duration = _audioFile.TotalTime.TotalSeconds;
 
             if (duration <= 0)
             { return; }
@@ -97,11 +110,11 @@ namespace OfflineRadio.Audio
 
 #if DEBUG
             Debug.WriteLine($"(offset: {offset}){_audioFile.CurrentTime}");
-#endif
+#endif*/
         }
 
-        public bool IsPlaying => _output.PlaybackState == PlaybackState.Playing;
+        public bool IsPlaying => false;// _output.PlaybackState == PlaybackState.Playing;
 
-        public TimeSpan? CurrentTime => _audioFile?.CurrentTime;
+        public TimeSpan? CurrentTime => null;// _audioFile?.CurrentTime;
     }
 }

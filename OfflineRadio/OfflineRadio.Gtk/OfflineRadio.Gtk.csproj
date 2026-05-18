@@ -12,5 +12,11 @@
   <ItemGroup>
     <PackageReference Include="Eto.Platform.Gtk" Version="2.10.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="libbass.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 	
 </Project>

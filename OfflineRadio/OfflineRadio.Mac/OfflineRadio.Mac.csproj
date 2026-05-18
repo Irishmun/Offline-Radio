@@ -15,4 +15,10 @@
     <PackageReference Include="Eto.Platform.Mac64" Version="2.10.2" />
   </ItemGroup>
 	
+  <ItemGroup>
+    <None Update="libbass.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+	
 </Project>

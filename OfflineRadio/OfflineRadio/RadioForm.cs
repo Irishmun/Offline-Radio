@@ -41,7 +41,7 @@ namespace OfflineRadio
             {
                 Sl_Volume.Value = _settings.LastVolume;
                 _player.SetVolume(_settings.LastVolume);
-                LB_Volume.Text = _settings.LastVolume.ToString();
+                LB_Volume.Text = "Volume:\n" + _settings.LastVolume.ToString();
             }
             else
             {
@@ -80,7 +80,7 @@ namespace OfflineRadio
 
         private void Sl_Volume_ValueChanged(object sender, EventArgs e)
         {
-            LB_Volume.Text = Sl_Volume.Value.ToString();
+            LB_Volume.Text = "volume:\n" + Sl_Volume.Value.ToString();
             _player.SetVolume(Sl_Volume.Value);
         }
 
